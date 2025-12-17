@@ -17,16 +17,7 @@ or password spraying activity against user accounts.
 **Data Source**  
 Microsoft Entra ID Sign-In Logs (`SigninLogs`)
 
-**KQL Query**
-```kql
-SigninLogs
-| where ResultType != 0
-| summarize FailedAttempts = count()
-    by UserPrincipalName, IPAddress, bin(TimeGenerated, 15m)
-| where FailedAttempts >= 5
-| sort by FailedAttempts desc
-
-MITRE ATT&CK Mapping
+**MITRE ATT&CK Mapping**
 - TA0006 – Credential Access
 - T1110 – Brute Force
 
@@ -39,3 +30,13 @@ Expected Outcome
 Once authentication telemetry is available, this hunt will surface users or IP
 addresses generating multiple failed sign-in attempts within a short time
 window, enabling early identification of credential-based attacks.
+
+**KQL Query**
+```kql
+SigninLogs
+| where ResultType != 0
+| summarize FailedAttempts = count()
+    by UserPrincipalName, IPAddress, bin(TimeGenerated, 15m)
+| where FailedAttempts >= 5
+| sort by FailedAttempts desc
+

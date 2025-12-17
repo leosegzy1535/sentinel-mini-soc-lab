@@ -25,3 +25,17 @@ SigninLogs
     by UserPrincipalName, IPAddress, bin(TimeGenerated, 15m)
 | where FailedAttempts >= 5
 | sort by FailedAttempts desc
+
+MITRE ATT&CK Mapping
+- TA0006 – Credential Access
+- T1110 – Brute Force
+
+Observations
+At the time of execution, the query returned no results due to the absence of
+ingested sign-in events in the newly created tenant. This was validated and
+documented as an expected condition rather than a detection failure.
+
+Expected Outcome
+Once authentication telemetry is available, this hunt will surface users or IP
+addresses generating multiple failed sign-in attempts within a short time
+window, enabling early identification of credential-based attacks.
